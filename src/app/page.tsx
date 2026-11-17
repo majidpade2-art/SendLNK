@@ -75,15 +75,15 @@ export default function LandingPage() {
             : "bg-[#0b0f19]/80 border-slate-800/80"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform drop-shadow-[0_0_15px_rgba(16,185,129,0.35)] overflow-hidden border border-emerald-500/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform drop-shadow-[0_0_15px_rgba(16,185,129,0.35)] overflow-hidden border border-emerald-500/30 shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.png" alt="SendLNK Logo" className="w-10 h-10 object-cover rounded-full" />
+              <img src="/logo.png" alt="SendLNK Logo" className="w-9 h-9 sm:w-10 sm:h-10 object-cover rounded-full" />
             </div>
             <span
               className={cn(
-                "font-extrabold text-xl sm:text-2xl tracking-wider transition-colors",
+                "font-extrabold text-lg sm:text-2xl tracking-wider transition-colors",
                 isLight ? "text-slate-900" : "text-white"
               )}
             >
@@ -125,7 +125,7 @@ export default function LandingPage() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <ThemeToggle />
             <LanguageSelector variant="compact" />
             <Link
@@ -139,21 +139,21 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/dashboard"
-              className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all flex items-center gap-2 cursor-pointer"
+              className="px-3 sm:px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
             >
               <span>{t("landing_nav_dashboard")}</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-20 sm:pt-20 sm:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
+      <section className="relative pt-8 pb-16 sm:pt-20 sm:pb-32 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         {/* Natural Pill Badge */}
         <div
           className={cn(
-            "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono mb-6 transition-colors",
+            "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono mb-4 sm:mb-6 transition-colors",
             isLight
               ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 font-bold shadow-xs"
               : "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-sm shadow-emerald-500/10"
@@ -166,7 +166,7 @@ export default function LandingPage() {
         {/* Main Headline */}
         <h1
           className={cn(
-            "text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl leading-[1.1] transition-colors",
+            "text-3xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl leading-[1.15] sm:leading-[1.1] transition-colors",
             isLight ? "text-slate-900" : "text-white"
           )}
         >
@@ -175,7 +175,7 @@ export default function LandingPage() {
 
         <p
           className={cn(
-            "mt-6 text-base sm:text-lg max-w-2xl leading-relaxed transition-colors",
+            "mt-4 sm:mt-6 text-sm sm:text-lg max-w-2xl leading-relaxed transition-colors px-2",
             isLight ? "text-slate-600" : "text-slate-400"
           )}
         >
@@ -186,47 +186,50 @@ export default function LandingPage() {
         <form
           onSubmit={handleClaim}
           className={cn(
-            "mt-8 sm:mt-10 w-full max-w-md p-2 rounded-2xl border transition-all flex items-center gap-2",
+            "mt-6 sm:mt-10 w-full max-w-md p-1.5 sm:p-2 rounded-2xl border transition-all flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shadow-lg",
             isLight
               ? "bg-white border-slate-300/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20"
               : "bg-[#0e1628]/90 backdrop-blur-xl border-slate-800 focus-within:border-emerald-500/60 focus-within:shadow-[0_4px_20px_rgba(16,185,129,0.15)]"
           )}
         >
-          <div className="flex items-center pl-3 text-xs sm:text-sm font-mono text-slate-400">
-            sendlnk.net/
+          <div className="flex items-center flex-1 min-w-0 px-2.5 py-1">
+            <span className="text-xs sm:text-sm font-mono text-slate-400 shrink-0 select-none">
+              sendlnk.net/
+            </span>
+            <input
+              type="text"
+              placeholder={t("landing_claim_placeholder")}
+              value={handleInput}
+              onChange={(e) => setHandleInput(e.target.value)}
+              className={cn(
+                "bg-transparent flex-1 text-xs sm:text-sm placeholder-slate-400 focus:outline-none font-mono py-1 px-1.5 min-w-0",
+                isLight ? "text-slate-900" : "text-slate-100"
+              )}
+            />
           </div>
-          <input
-            type="text"
-            placeholder={t("landing_claim_placeholder")}
-            value={handleInput}
-            onChange={(e) => setHandleInput(e.target.value)}
-            className={cn(
-              "bg-transparent flex-1 text-sm placeholder-slate-400 focus:outline-none font-mono py-1 px-1",
-              isLight ? "text-slate-900" : "text-slate-100"
-            )}
-          />
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all shrink-0 cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all shrink-0 cursor-pointer flex items-center justify-center gap-1.5"
           >
-            {t("landing_claim_btn")}
+            <span>{t("landing_claim_btn")}</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
         <div
           className={cn(
-            "mt-4 flex items-center gap-4 text-xs font-mono transition-colors",
-            isLight ? "text-slate-600 font-medium" : "text-slate-500"
+            "mt-4 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[11px] sm:text-xs font-mono transition-colors px-2",
+            isLight ? "text-slate-600 font-medium" : "text-slate-400"
           )}
         >
-          <span className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-emerald-500" /> Free Forever Tier
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> 100% Gratis
           </span>
-          <span className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-emerald-500" /> No Coding Required
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Tanpa Koding
           </span>
-          <span className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-emerald-500" /> Instant Setup
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Setup Instan
           </span>
         </div>
 
@@ -261,7 +264,7 @@ export default function LandingPage() {
               </div>
 
               {/* Theme switcher tabs */}
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center justify-start sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto">
                 {Object.keys(PRESET_THEMES).slice(0, 5).map((tKey) => {
                   const t = PRESET_THEMES[tKey];
                   const isActive = previewThemeKey === tKey;
@@ -270,7 +273,7 @@ export default function LandingPage() {
                       key={tKey}
                       onClick={() => setPreviewThemeKey(tKey)}
                       className={cn(
-                        "px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer",
+                        "px-3 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer",
                         isActive
                           ? isLight
                             ? "bg-slate-900 text-white shadow-sm shadow-slate-900/20 font-semibold"
