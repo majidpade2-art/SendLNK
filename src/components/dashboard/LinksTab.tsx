@@ -18,8 +18,10 @@ import {
   Layers,
   MousePointerClick,
   FolderOpen,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
-import { Reorder } from "framer-motion";
+import { Reorder, useDragControls } from "framer-motion";
 import { cn, formatNumber } from "@/lib/utils";
 
 // Common Lucide icon presets for links
@@ -78,6 +80,248 @@ function LinkThumbnail({
   }
 
   return <IconRenderer name={icon || "Globe"} className="w-5 h-5" />;
+}
+
+interface DraggableLinkItemProps {
+  link: LinkItem;
+  index: number;
+  total: number;
+  isLight: boolean;
+  onMoveUp: (index: number) => void;
+  onMoveDown: (index: number) => void;
+  onToggleHighlight: (id: string) => void;
+  onOpenEdit: (link: LinkItem) => void;
+  onDelete: (id: string) => void;
+  onToggleStatus: (id: string) => void;
+}
+
+function DraggableLinkItem({
+  link,
+  index,
+  total,
+  isLight,
+  onMoveUp,
+  onMoveDown,
+  onToggleHighlight,
+  onOpenEdit,
+  onDelete,
+  onToggleStatus,
+}: DraggableLinkItemProps) {
+  const dragControls = useDragControls();
+
+  return (
+    <Reorder.Item
+      value={link}
+      dragListener={false}
+      dragControls={dragControls}
+      layout
+      transition={{
+        type: "spring",
+        stiffness: 350,
+        damping: 28,
+      }}
+      whileDrag={{
+        scale: 1.025,
+        boxShadow: isLight
+          ? "0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 0 15px rgba(16, 185, 129, 0.25)"
+          : "0 25px 35px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(16, 185, 129, 0.35)",
+        zIndex: 50,
+        borderColor: "#10b981",
+      }}
+      className={cn(
+        "relative p-4 rounded-2xl border select-none shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors",
+        isLight
+          ? "bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-md"
+          : "bg-[#0a0e1a] border-slate-800/80 hover:border-slate-700"
+      )}
+    >
+      {/* Drag Handle & Info */}
+      <div className="flex items-start sm:items-center gap-2 sm:gap-3.5 min-w-0 flex-1">
+        {/* Drag Controls Column (Handle + Quick Up/Down buttons) */}
+        <div className="flex flex-col items-center gap-0.5 shrink-0 select-none">
+          {/* Quick Up */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onMoveUp(index);
+            }}
+            disabled={index === 0}
+            className={cn(
+              "p-0.5 rounded transition-colors cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed",
+              isLight
+                ? "text-slate-400 hover:text-slate-900 hover:bg-slate-100"
+                : "text-slate-600 hover:text-slate-200 hover:bg-slate-800"
+            )}
+            title="Pindah ke Atas"
+          >
+            <ChevronUp className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Grip Vertical Drag Handle */}
+          <div
+            onPointerDown={(e) => dragControls.start(e)}
+            className={cn(
+              "p-1.5 rounded-lg cursor-grab active:cursor-grabbing touch-none transition-colors",
+              isLight
+                ? "text-slate-400 hover:text-slate-800 hover:bg-slate-100"
+                : "text-slate-500 hover:text-slate-200 hover:bg-slate-800/80"
+            )}
+            title="Tahan & geser untuk memindahkan posisi"
+          >
+            <GripVertical className="w-4 h-4" />
+          </div>
+
+          {/* Quick Down */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onMoveDown(index);
+            }}
+            disabled={index === total - 1}
+            className={cn(
+              "p-0.5 rounded transition-colors cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed",
+              isLight
+                ? "text-slate-400 hover:text-slate-900 hover:bg-slate-100"
+                : "text-slate-600 hover:text-slate-200 hover:bg-slate-800"
+            )}
+            title="Pindah ke Bawah"
+          >
+            <ChevronDown className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Icon or Thumbnail */}
+        <div
+          className={cn(
+            "w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 text-emerald-400 overflow-hidden transition-colors",
+            isLight ? "bg-slate-100 border-slate-200" : "bg-slate-900 border-slate-800"
+          )}
+        >
+          <LinkThumbnail
+            thumbnailUrl={link.thumbnail_url}
+            icon={link.icon}
+          />
+        </div>
+
+        {/* Link Text */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span
+              className={cn(
+                "font-semibold text-sm truncate transition-colors",
+                isLight ? "text-slate-900" : "text-slate-100"
+              )}
+            >
+              {link.title}
+            </span>
+            {link.is_highlighted && (
+              <span className="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 shrink-0">
+                <Sparkles className="w-3 h-3" />
+                Glow
+              </span>
+            )}
+            {link.category && (
+              <span
+                className={cn(
+                  "text-[10px] px-2 py-0.5 rounded-full font-mono hidden sm:inline shrink-0 transition-colors",
+                  isLight
+                    ? "bg-slate-100 border border-slate-200 text-slate-600"
+                    : "bg-slate-800 text-slate-400"
+                )}
+              >
+                {link.category}
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
+            <span
+              className={cn(
+                "truncate max-w-[200px] sm:max-w-xs font-mono transition-colors",
+                isLight ? "text-slate-600" : "text-slate-500"
+              )}
+            >
+              {link.url}
+            </span>
+            <span className="flex items-center gap-1 text-slate-400 shrink-0">
+              <MousePointerClick className="w-3 h-3 text-cyan-400" />
+              <strong
+                className={cn(
+                  "transition-colors",
+                  isLight ? "text-slate-800" : "text-slate-200"
+                )}
+              >
+                {formatNumber(link.click_count)}
+              </strong>{" "}
+              clicks
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Action Buttons & Toggles */}
+      <div
+        className={cn(
+          "flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 shrink-0 transition-colors",
+          isLight ? "border-slate-100" : "border-slate-800/60"
+        )}
+      >
+        {/* Highlight Glow Toggle */}
+        <button
+          onClick={() => onToggleHighlight(link.id)}
+          title={link.is_highlighted ? "Remove Glow" : "Add Glow"}
+          className={cn(
+            "p-2 rounded-xl transition-all cursor-pointer",
+            link.is_highlighted
+              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/20"
+              : isLight
+              ? "text-slate-500 hover:text-slate-900 bg-slate-100 border border-slate-200 hover:bg-slate-200"
+              : "text-slate-500 hover:text-slate-300 bg-slate-900 border border-slate-800"
+          )}
+        >
+          <Sparkles className="w-4 h-4" />
+        </button>
+
+        {/* Edit Link */}
+        <button
+          onClick={() => onOpenEdit(link)}
+          title="Edit Link"
+          className={cn(
+            "p-2 rounded-xl transition-colors cursor-pointer",
+            isLight
+              ? "text-slate-600 hover:text-slate-950 bg-slate-100 border border-slate-200 hover:bg-slate-200"
+              : "text-slate-400 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700"
+          )}
+        >
+          <Edit2 className="w-4 h-4" />
+        </button>
+
+        {/* Delete Link */}
+        <button
+          onClick={() => onDelete(link.id)}
+          title="Delete Link"
+          className={cn(
+            "p-2 rounded-xl transition-colors cursor-pointer",
+            isLight
+              ? "text-slate-500 hover:text-red-500 bg-slate-100 border border-slate-200 hover:border-red-300 hover:bg-red-50"
+              : "text-slate-500 hover:text-red-400 bg-slate-900 border border-slate-800 hover:border-red-500/40 hover:bg-red-500/10"
+          )}
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+
+        {/* Active Switch */}
+        <div className="pl-1">
+          <Switch
+            checked={link.is_active}
+            onCheckedChange={() => onToggleStatus(link.id)}
+          />
+        </div>
+      </div>
+    </Reorder.Item>
+  );
 }
 
 export function LinksTab() {
@@ -216,6 +460,34 @@ export function LinksTab() {
     return link.category === activeCategory;
   });
 
+  const handleMoveUp = (index: number) => {
+    if (index <= 0) return;
+    const newOrder = [...filteredLinks];
+    const temp = newOrder[index];
+    newOrder[index] = newOrder[index - 1];
+    newOrder[index - 1] = temp;
+    if (activeCategory === "All") {
+      reorderLinks(newOrder);
+    } else {
+      const otherLinks = links.filter((l) => l.category !== activeCategory);
+      reorderLinks([...newOrder, ...otherLinks]);
+    }
+  };
+
+  const handleMoveDown = (index: number) => {
+    if (index >= filteredLinks.length - 1) return;
+    const newOrder = [...filteredLinks];
+    const temp = newOrder[index];
+    newOrder[index] = newOrder[index + 1];
+    newOrder[index + 1] = temp;
+    if (activeCategory === "All") {
+      reorderLinks(newOrder);
+    } else {
+      const otherLinks = links.filter((l) => l.category !== activeCategory);
+      reorderLinks([...newOrder, ...otherLinks]);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header and Add Button */}
@@ -293,153 +565,20 @@ export function LinksTab() {
           }}
           className="space-y-3"
         >
-          {filteredLinks.map((link) => (
-            <Reorder.Item
+          {filteredLinks.map((link, index) => (
+            <DraggableLinkItem
               key={link.id}
-              value={link}
-              className={cn(
-                "relative p-4 rounded-2xl border transition-all select-none shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4",
-                isLight
-                  ? "bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-md"
-                  : "bg-[#0a0e1a] border-slate-800/80 hover:border-slate-700"
-              )}
-            >
-              {/* Drag Handle & Info */}
-              <div className="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
-                {/* Drag Grip */}
-                <div className="cursor-grab active:cursor-grabbing p-1 text-slate-500 hover:text-slate-300 transition-colors shrink-0 mt-0.5 sm:mt-0">
-                  <GripVertical className="w-4 h-4" />
-                </div>
-
-                {/* Icon or Thumbnail */}
-                <div
-                  className={cn(
-                    "w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 text-emerald-400 overflow-hidden transition-colors",
-                    isLight ? "bg-slate-100 border-slate-200" : "bg-slate-900 border-slate-800"
-                  )}
-                >
-                  <LinkThumbnail
-                    thumbnailUrl={link.thumbnail_url}
-                    icon={link.icon}
-                  />
-                </div>
-
-                {/* Link Text */}
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={cn(
-                        "font-semibold text-sm truncate transition-colors",
-                        isLight ? "text-slate-900" : "text-slate-100"
-                      )}
-                    >
-                      {link.title}
-                    </span>
-                    {link.is_highlighted && (
-                      <span className="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 shrink-0">
-                        <Sparkles className="w-3 h-3" />
-                        Glow
-                      </span>
-                    )}
-                    {link.category && (
-                      <span
-                        className={cn(
-                          "text-[10px] px-2 py-0.5 rounded-full font-mono hidden sm:inline shrink-0 transition-colors",
-                          isLight
-                            ? "bg-slate-100 border border-slate-200 text-slate-600"
-                            : "bg-slate-800 text-slate-400"
-                        )}
-                      >
-                        {link.category}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
-                    <span
-                      className={cn(
-                        "truncate max-w-[200px] sm:max-w-xs font-mono transition-colors",
-                        isLight ? "text-slate-600" : "text-slate-500"
-                      )}
-                    >
-                      {link.url}
-                    </span>
-                    <span className="flex items-center gap-1 text-slate-400 shrink-0">
-                      <MousePointerClick className="w-3 h-3 text-cyan-400" />
-                      <strong
-                        className={cn(
-                          "transition-colors",
-                          isLight ? "text-slate-800" : "text-slate-200"
-                        )}
-                      >
-                        {formatNumber(link.click_count)}
-                      </strong>{" "}
-                      clicks
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons & Toggles */}
-              <div
-                className={cn(
-                  "flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 shrink-0 transition-colors",
-                  isLight ? "border-slate-100" : "border-slate-800/60"
-                )}
-              >
-                {/* Highlight Glow Toggle */}
-                <button
-                  onClick={() => toggleHighlight(link.id)}
-                  title={link.is_highlighted ? "Remove Glow" : "Add Glow"}
-                  className={cn(
-                    "p-2 rounded-xl transition-all cursor-pointer",
-                    link.is_highlighted
-                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/20"
-                      : isLight
-                      ? "text-slate-500 hover:text-slate-900 bg-slate-100 border border-slate-200 hover:bg-slate-200"
-                      : "text-slate-500 hover:text-slate-300 bg-slate-900 border border-slate-800"
-                  )}
-                >
-                  <Sparkles className="w-4 h-4" />
-                </button>
-
-                {/* Edit Link */}
-                <button
-                  onClick={() => openEditModal(link)}
-                  title="Edit Link"
-                  className={cn(
-                    "p-2 rounded-xl transition-colors cursor-pointer",
-                    isLight
-                      ? "text-slate-600 hover:text-slate-950 bg-slate-100 border border-slate-200 hover:bg-slate-200"
-                      : "text-slate-400 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700"
-                  )}
-                >
-                  <Edit2 className="w-4 h-4" />
-                </button>
-
-                {/* Delete Link */}
-                <button
-                  onClick={() => deleteLink(link.id)}
-                  title="Delete Link"
-                  className={cn(
-                    "p-2 rounded-xl transition-colors cursor-pointer",
-                    isLight
-                      ? "text-slate-500 hover:text-red-500 bg-slate-100 border border-slate-200 hover:border-red-300 hover:bg-red-50"
-                      : "text-slate-500 hover:text-red-400 bg-slate-900 border border-slate-800 hover:border-red-500/40 hover:bg-red-500/10"
-                  )}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-
-                {/* Active Switch */}
-                <div className="pl-1">
-                  <Switch
-                    checked={link.is_active}
-                    onCheckedChange={() => toggleLinkStatus(link.id)}
-                  />
-                </div>
-              </div>
-            </Reorder.Item>
+              link={link}
+              index={index}
+              total={filteredLinks.length}
+              isLight={isLight}
+              onMoveUp={handleMoveUp}
+              onMoveDown={handleMoveDown}
+              onToggleHighlight={toggleHighlight}
+              onOpenEdit={openEditModal}
+              onDelete={deleteLink}
+              onToggleStatus={toggleLinkStatus}
+            />
           ))}
         </Reorder.Group>
       ) : (
