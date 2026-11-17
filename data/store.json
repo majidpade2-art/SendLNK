@@ -1,0 +1,392 @@
+{
+  "profiles": [
+    {
+      "id": "usr_demo_majid",
+      "username": "sendlink",
+      "display_name": "Majid Al-Mansoor",
+      "bio": "Creative Technologist & AI Architect. Crafting next-gen web systems, cyberpunk aesthetics, and intelligent workflows. ✨",
+      "avatar_url": "/avatar.png",
+      "verified": true,
+      "is_online": true,
+      "font_family": "Space Grotesk",
+      "views_count": 0,
+      "theme_config": {
+        "theme_id": "soft_cream",
+        "name": "Soft Cream Minimal",
+        "mode": "light",
+        "accent_color": "#06b6d4",
+        "button_style": "minimal",
+        "card_style": "bordered",
+        "border_radius": "full",
+        "font_family": "Space Grotesk",
+        "background_type": "solid",
+        "background_value": "#faf8f5",
+        "hide_branding": true
+      },
+      "plan_tier": "pro",
+      "language": "en",
+      "created_at": "2026-08-17T14:47:57.831Z",
+      "updated_at": "2026-11-16T10:51:13.817Z"
+    },
+    {
+      "id": "usr_demo_jid",
+      "username": "jid",
+      "display_name": "Mazy Updated",
+      "bio": "Creative Technologist & AI Architect. Crafting next-gen web systems, cyberpunk aesthetics, and intelligent workflows. ✨",
+      "avatar_url": "/avatar.png",
+      "verified": true,
+      "is_online": true,
+      "font_family": "Space Grotesk",
+      "views_count": 0,
+      "theme_config": {
+        "theme_id": "pearl_white",
+        "name": "Pure Pearl Light",
+        "mode": "light",
+        "background_type": "gradient",
+        "background_value": "linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)",
+        "accent_color": "#10b981",
+        "button_style": "glass",
+        "card_style": "glass",
+        "border_radius": "full",
+        "font_family": "Space Grotesk"
+      },
+      "plan_tier": "pro",
+      "language": "en",
+      "created_at": "2026-08-17T14:47:57.831Z",
+      "updated_at": "2026-11-15T14:55:03.434Z"
+    },
+    {
+      "id": "usr_1794761864997",
+      "username": "fanz",
+      "display_name": "FanzMobi",
+      "bio": "donate sini lek",
+      "avatar_url": "/avatar.png",
+      "verified": true,
+      "is_online": true,
+      "font_family": "Space Grotesk",
+      "views_count": 0,
+      "theme_config": {
+        "theme_id": "pearl_white",
+        "name": "Pure Pearl Light",
+        "mode": "light",
+        "background_type": "gradient",
+        "background_value": "linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)",
+        "accent_color": "#10b981",
+        "button_style": "glass",
+        "card_style": "glass",
+        "border_radius": "full",
+        "font_family": "Space Grotesk"
+      },
+      "plan_tier": "pro",
+      "language": "en",
+      "created_at": "2026-11-15T16:57:44.997Z",
+      "updated_at": "2026-11-15T16:57:44.997Z"
+    },
+    {
+      "id": "usr_1794762097722",
+      "username": "sendlink",
+      "display_name": "SENDLINK",
+      "bio": "",
+      "avatar_url": "/avatar.png",
+      "verified": true,
+      "is_online": true,
+      "font_family": "Space Grotesk",
+      "views_count": 0,
+      "theme_config": {
+        "theme_id": "pearl_white",
+        "name": "Pure Pearl Light",
+        "mode": "light",
+        "background_type": "gradient",
+        "background_value": "linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)",
+        "accent_color": "#10b981",
+        "button_style": "glass",
+        "card_style": "glass",
+        "border_radius": "full",
+        "font_family": "Space Grotesk"
+      },
+      "plan_tier": "pro",
+      "language": "en",
+      "created_at": "2026-11-15T17:01:37.722Z",
+      "updated_at": "2026-11-15T17:01:37.722Z"
+    },
+    {
+      "id": "usr_demo",
+      "username": "admin",
+      "display_name": "Administrator",
+      "bio": "",
+      "avatar_url": "/avatar.png",
+      "verified": true,
+      "is_online": true,
+      "font_family": "Space Grotesk",
+      "views_count": 104,
+      "theme_config": {
+        "theme_id": "pearl_white",
+        "name": "Pure Pearl Light",
+        "mode": "light",
+        "accent_color": "#10b981",
+        "button_style": "glass",
+        "card_style": "glass",
+        "border_radius": "lg",
+        "font_family": "Space Grotesk",
+        "background_type": "gradient",
+        "background_value": "linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)",
+        "hide_branding": false
+      },
+      "plan_tier": "pro",
+      "language": "id",
+      "created_at": "2026-11-16T17:34:03.682Z",
+      "updated_at": "2026-11-17T07:57:08.599Z"
+    }
+  ],
+  "links": [
+    {
+      "profile_id": "usr_demo_jid",
+      "title": "My Portfolio",
+      "url": "https://github.com",
+      "id": "link_1794754542720_1l1p",
+      "display_order": 7,
+      "click_count": 0,
+      "is_active": true,
+      "is_highlighted": false,
+      "created_at": "2026-11-15T14:55:42.720Z"
+    },
+    {
+      "id": "link_1",
+      "profile_id": "usr_demo_majid",
+      "title": "Youtube",
+      "url": "https://youtube.com",
+      "description": "Youtube",
+      "icon": "Youtube",
+      "is_active": true,
+      "is_highlighted": false,
+      "click_count": 1,
+      "display_order": 1,
+      "category": "Youtube",
+      "created_at": "2026-10-16T14:47:57.831Z",
+      "thumbnail_url": "/uploads/img_1794900082088_wtzx5.jpeg",
+      "scheduled_start": null,
+      "scheduled_end": null,
+      "updated_at": "2026-11-17T07:22:01.222Z"
+    },
+    {
+      "id": "link_2",
+      "profile_id": "usr_demo_majid",
+      "title": "💻 GitHub Projects & Open Source Repositories",
+      "url": "https://github.com",
+      "description": "Explore 50+ starred repos, templates, and CLI tools",
+      "icon": "Github",
+      "is_active": true,
+      "is_highlighted": false,
+      "click_count": 1,
+      "display_order": 2,
+      "category": "Code",
+      "created_at": "2026-10-21T14:47:57.831Z"
+    },
+    {
+      "id": "link_3",
+      "profile_id": "usr_demo_majid",
+      "title": "🚀 MajidSpace Premium Platform & Studio",
+      "url": "https://majidspace.me",
+      "description": "Official agency site and interactive digital showroom",
+      "icon": "Globe",
+      "is_active": true,
+      "is_highlighted": true,
+      "click_count": 0,
+      "display_order": 3,
+      "category": "Projects",
+      "created_at": "2026-10-26T14:47:57.831Z"
+    },
+    {
+      "id": "link_4",
+      "profile_id": "usr_demo_majid",
+      "title": "👾 Join the VIP Discord Community (15k+ Members)",
+      "url": "https://discord.com",
+      "description": "Exclusive hackathons, dev meetups, and design reviews",
+      "icon": "MessageSquare",
+      "is_active": true,
+      "is_highlighted": false,
+      "click_count": 0,
+      "display_order": 4,
+      "category": "Community",
+      "created_at": "2026-10-31T14:47:57.831Z"
+    },
+    {
+      "id": "link_5",
+      "profile_id": "usr_demo_majid",
+      "title": "🎧 Synthwave & Deep Focus Coding Playlist",
+      "url": "https://spotify.com",
+      "description": "Over 8 hours of dark synth and cyber lo-fi frequencies",
+      "icon": "Music",
+      "is_active": true,
+      "is_highlighted": false,
+      "click_count": 0,
+      "display_order": 5,
+      "category": "Music",
+      "created_at": "2026-11-05T14:47:57.831Z"
+    },
+    {
+      "id": "link_6",
+      "profile_id": "usr_demo_majid",
+      "title": "📬 The Matrix Dispatch: Weekly AI Tech Letter",
+      "url": "https://substack.com",
+      "description": "Curated insights delivered directly to your inbox every Sunday",
+      "icon": "BookOpen",
+      "is_active": true,
+      "is_highlighted": false,
+      "click_count": 0,
+      "display_order": 6,
+      "category": "Newsletter",
+      "created_at": "2026-11-10T14:47:57.831Z"
+    }
+  ],
+  "socials": [
+    {
+      "id": "soc_1",
+      "profile_id": "usr_demo_majid",
+      "platform": "instagram",
+      "url": "https://instagram.com/SendLNK",
+      "is_active": false,
+      "display_order": 1
+    },
+    {
+      "id": "soc_2",
+      "profile_id": "usr_demo_majid",
+      "platform": "twitter",
+      "url": "https://x.com/sendlnk",
+      "is_active": false,
+      "display_order": 2
+    },
+    {
+      "id": "soc_3",
+      "profile_id": "usr_demo_majid",
+      "platform": "github",
+      "url": "https://github.com/SendLNK",
+      "is_active": false,
+      "display_order": 3
+    },
+    {
+      "id": "soc_4",
+      "profile_id": "usr_demo_majid",
+      "platform": "youtube",
+      "url": "https://youtube.com/channel/SendLNK",
+      "is_active": false,
+      "display_order": 4
+    },
+    {
+      "id": "soc_5",
+      "profile_id": "usr_demo_majid",
+      "platform": "discord",
+      "url": "https://discord.gg/sendlnk",
+      "is_active": false,
+      "display_order": 5
+    },
+    {
+      "id": "soc_6",
+      "profile_id": "usr_demo_majid",
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/SendLNK",
+      "is_active": false,
+      "display_order": 6
+    },
+    {
+      "id": "soc_7",
+      "profile_id": "usr_demo_majid",
+      "platform": "spotify",
+      "url": "https://open.spotify.com/user/SendLNK",
+      "is_active": false,
+      "display_order": 7
+    },
+    {
+      "id": "soc_8",
+      "profile_id": "usr_demo_majid",
+      "platform": "email",
+      "url": "mailto:[EMAIL_ADDRESS]",
+      "is_active": false,
+      "display_order": 8
+    }
+  ],
+  "analytics": {
+    "total_views": 104,
+    "total_clicks": 2,
+    "ctr": 0,
+    "active_links_count": 0,
+    "top_links": [],
+    "daily_stats": [
+      {
+        "date": "Mon",
+        "views": 0,
+        "clicks": 0
+      },
+      {
+        "date": "Tue",
+        "views": 0,
+        "clicks": 0
+      },
+      {
+        "date": "Wed",
+        "views": 0,
+        "clicks": 0
+      },
+      {
+        "date": "Thu",
+        "views": 0,
+        "clicks": 0
+      },
+      {
+        "date": "Fri",
+        "views": 0,
+        "clicks": 0
+      },
+      {
+        "date": "Sat",
+        "views": 0,
+        "clicks": 0
+      },
+      {
+        "date": "Sun",
+        "views": 104,
+        "clicks": 2
+      }
+    ],
+    "device_stats": [
+      {
+        "device": "Mobile",
+        "percentage": 0,
+        "count": 0
+      },
+      {
+        "device": "Desktop",
+        "percentage": 0,
+        "count": 0
+      },
+      {
+        "device": "Tablet",
+        "percentage": 0,
+        "count": 0
+      }
+    ],
+    "referral_stats": [
+      {
+        "source": "Instagram Bio",
+        "visits": 0,
+        "percentage": 0
+      },
+      {
+        "source": "X / Twitter",
+        "visits": 0,
+        "percentage": 0
+      },
+      {
+        "source": "Direct / QR Scan",
+        "visits": 0,
+        "percentage": 0
+      },
+      {
+        "source": "YouTube Description",
+        "visits": 0,
+        "percentage": 0
+      }
+    ],
+    "recent_activity": []
+  }
+}
