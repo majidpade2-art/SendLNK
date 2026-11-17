@@ -48,7 +48,7 @@ export default function DashboardLayout({
   return (
     <div
       className={cn(
-        "flex h-screen w-screen overflow-hidden transition-colors",
+        "flex h-screen w-full max-w-[100vw] overflow-x-hidden transition-colors",
         isLight ? "bg-[#f8fafc] text-slate-900" : "bg-[#07090e] text-slate-100"
       )}
     >
@@ -71,7 +71,7 @@ export default function DashboardLayout({
       )}
 
       {/* Main Workspace (Header + Active Content + Live Phone Frame) */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
+      <div className="flex-1 flex flex-col h-full min-w-0 w-full overflow-hidden">
         <DashboardHeader
           onToggleMobileSidebar={() => setMobileSidebarOpen(true)}
           onToggleMobilePreview={() => setMobilePreviewOpen(true)}
@@ -80,10 +80,10 @@ export default function DashboardLayout({
         />
 
         {/* Center Content & Right Phone Preview Container */}
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex overflow-hidden min-w-0 w-full">
           {/* Active Tab Content (Scrollable) */}
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-            <div className="max-w-4xl mx-auto">{children}</div>
+          <main className="flex-1 overflow-y-auto overflow-x-hidden p-3.5 sm:p-6 lg:p-8 min-w-0 w-full">
+            <div className="max-w-4xl mx-auto w-full">{children}</div>
           </main>
 
           {/* Desktop Right Side Phone Preview Frame */}

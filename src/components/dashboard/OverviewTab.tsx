@@ -251,7 +251,14 @@ export function OverviewTab() {
       {/* Main Charts & Activity Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Interactive Traffic Visualizer */}
-        <div className="lg:col-span-2 p-5 rounded-2xl bg-[#0a0e1a] border border-slate-800/80">
+        <div
+          className={cn(
+            "lg:col-span-2 p-4 sm:p-5 rounded-2xl border transition-colors",
+            isLight
+              ? "bg-white border-slate-200/90 shadow-sm"
+              : "bg-[#0a0e1a] border-slate-800/80"
+          )}
+        >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
             <div>
               <h3
@@ -403,7 +410,14 @@ export function OverviewTab() {
         </div>
 
         {/* Right 1 Col: Device Breakdown & Referrers */}
-        <div className="p-5 rounded-2xl bg-[#0a0e1a] border border-slate-800/80 flex flex-col justify-between">
+        <div
+          className={cn(
+            "p-4 sm:p-5 rounded-2xl border flex flex-col justify-between transition-colors",
+            isLight
+              ? "bg-white border-slate-200/90 shadow-sm"
+              : "bg-[#0a0e1a] border-slate-800/80"
+          )}
+        >
           <div>
             <h3
               className={cn(
