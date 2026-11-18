@@ -114,14 +114,13 @@ function DraggableLinkItem({
       value={link}
       dragListener={false}
       dragControls={dragControls}
-      layout
       transition={{
         type: "spring",
         stiffness: 350,
         damping: 28,
       }}
       whileDrag={{
-        scale: 1.025,
+        scale: 1.02,
         boxShadow: isLight
           ? "0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 0 15px rgba(16, 185, 129, 0.25)"
           : "0 25px 35px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(16, 185, 129, 0.35)",
@@ -129,7 +128,7 @@ function DraggableLinkItem({
         borderColor: "#10b981",
       }}
       className={cn(
-        "relative p-4 rounded-2xl border select-none shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors",
+        "relative p-3.5 sm:p-4 rounded-2xl border select-none shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 transition-colors w-full shrink-0",
         isLight
           ? "bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-md"
           : "bg-[#0a0e1a] border-slate-800/80 hover:border-slate-700"
@@ -563,7 +562,7 @@ export function LinksTab() {
               reorderLinks([...newOrder, ...otherLinks]);
             }
           }}
-          className="space-y-3"
+          className="flex flex-col gap-3.5 w-full"
         >
           {filteredLinks.map((link, index) => (
             <DraggableLinkItem

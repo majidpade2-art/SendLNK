@@ -23,7 +23,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim() || !email.trim() || !password.trim()) return;
 
@@ -33,18 +33,61 @@ export default function RegisterPage() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      const cleanUsername = username.toLowerCase().replace(/[^a-z0-9_-]/g, "");
-      const res = registerAccount({
-        email: email.trim().toLowerCase(),
+    const cleanUsername = username.toLowerCase().replace(/[^a-z0-9_-]/g, "");
+    const cleanEmail = email.trim().toLowerCase();
+    const finalDisplayName = displayName.trim() || cleanUsername;
+
+    try {
+      // 1. Centralized server-side register (allows login from any other device)
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: cleanEmail,
+          password: password.trim(),
+          username: cleanUsername,
+          displayName: finalDisplayName,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        notify.error(data.message || "Gagal membuat akun.", "auth-register-err");
+        setIsLoading(false);
+        return;
+      }
+
+      // Also register in local client storage as mirror
+      registerAccount({
+        email: cleanEmail,
         password: password.trim(),
         username: cleanUsername,
-        displayName: displayName || cleanUsername,
+        displayName: finalDisplayName,
         createdAt: new Date().toISOString(),
       });
 
-      if (!res.success) {
-        notify.error(res.message, "auth-register-err");
+      resetToDefaults(true);
+      updateProfile({
+        username: cleanUsername,
+        display_name: finalDisplayName,
+        views_count: 0,
+      });
+      loginUser(cleanEmail);
+      notify.success(data.message || "Akun berhasil dibuat!", "auth-register");
+      router.push("/dashboard");
+    } catch {
+      // Fallback local register
+      const localRes = registerAccount({
+        email: cleanEmail,
+        password: password.trim(),
+        username: cleanUsername,
+        displayName: finalDisplayName,
+        createdAt: new Date().toISOString(),
+      });
+
+      if (!localRes.success) {
+        notify.error(localRes.message, "auth-register-err");
         setIsLoading(false);
         return;
       }
@@ -52,13 +95,15 @@ export default function RegisterPage() {
       resetToDefaults(true);
       updateProfile({
         username: cleanUsername,
-        display_name: displayName || cleanUsername,
+        display_name: finalDisplayName,
         views_count: 0,
       });
-      loginUser(email.trim().toLowerCase());
-      notify.success(res.message, "auth-register");
+      loginUser(cleanEmail);
+      notify.success(localRes.message, "auth-register");
       router.push("/dashboard");
-    }, 500);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

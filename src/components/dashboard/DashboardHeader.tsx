@@ -76,14 +76,16 @@ export function DashboardHeader({
           {/* Light / Dark Mode Toggle */}
           <ThemeToggle variant="pill" />
 
-          {/* Multi-language Selector */}
-          <LanguageSelector variant="compact" />
+          {/* Multi-language Selector (available on desktop header, and in mobile drawer) */}
+          <div className="hidden sm:block">
+            <LanguageSelector variant="compact" />
+          </div>
 
           {/* Toggle Live Phone Preview button for mobile/tablets */}
           <button
             onClick={onToggleMobilePreview}
             className={cn(
-              "flex items-center gap-1 px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-medium xl:hidden transition-all cursor-pointer",
+              "flex items-center gap-1 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-medium xl:hidden transition-all cursor-pointer shrink-0",
               isLight
                 ? "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-emerald-500"
                 : "bg-slate-900 border-slate-700/80 text-slate-200 hover:border-emerald-500/50"
@@ -98,11 +100,12 @@ export function DashboardHeader({
           <button
             onClick={() => setIsShareModalOpen(true)}
             className={cn(
-              "flex items-center gap-1 px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-medium transition-all cursor-pointer",
+              "flex items-center gap-1 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-medium transition-all cursor-pointer shrink-0",
               isLight
                 ? "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-emerald-500"
                 : "bg-slate-900 border-slate-700/80 text-slate-200 hover:border-emerald-500/50"
             )}
+            title={t("nav_share")}
           >
             <Share2 className="w-3.5 h-3.5 text-emerald-400" />
             <span className="hidden md:inline">{t("nav_share")}</span>
@@ -112,7 +115,7 @@ export function DashboardHeader({
           <Link
             href={`/${user.username}`}
             target="_blank"
-            className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-emerald-500 text-slate-950 font-semibold text-xs hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all cursor-pointer shrink-0"
+            className="flex items-center gap-1 p-1.5 sm:px-3.5 sm:py-1.5 rounded-xl bg-emerald-500 text-slate-950 font-semibold text-xs hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all cursor-pointer shrink-0"
             title={t("nav_live_site")}
           >
             <span className="hidden sm:inline">{t("nav_live_site")}</span>

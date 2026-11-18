@@ -114,8 +114,9 @@ export default function DashboardLayout({
 
           {/* Desktop Right Side Phone Preview Frame */}
           <aside
+            data-desktop-preview="true"
             className={cn(
-              "hidden xl:flex w-[400px] shrink-0 h-full items-center justify-center p-6 border-l overflow-y-auto no-scrollbar transition-colors",
+              "desktop-phone-aside hidden xl:flex xl:w-[400px] shrink-0 h-full items-center justify-center p-6 border-l overflow-y-auto no-scrollbar transition-colors",
               isLight
                 ? "border-slate-200 bg-slate-50/70"
                 : "border-slate-800/80 bg-[#080c14]/40"

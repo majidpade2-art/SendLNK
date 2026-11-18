@@ -10,7 +10,7 @@ import { LanguageSelector } from "@/components/ui/LanguageSelector";
 import { Lock, Mail } from "lucide-react";
 import { notify } from "@/lib/toast";
 import { cn } from "@/lib/utils";
-import { verifyCredentials } from "@/lib/auth";
+import { verifyCredentials, saveAccount } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,25 +26,70 @@ export default function LoginPage() {
     if (!email.trim() || !password.trim()) return;
     setIsLoading(true);
 
-    setTimeout(() => {
-      const result = verifyCredentials(email, password);
-      if (!result.success) {
-        notify.error(result.message, "auth-err");
-        setIsLoading(false);
+    try {
+      // 1. First authenticate with Central Backend Server API (enables multi-device login)
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        if (data.account) {
+          saveAccount({
+            email: data.account.email,
+            password,
+            username: data.account.username,
+            displayName: data.account.displayName || data.account.username,
+            createdAt: new Date().toISOString(),
+          });
+          updateProfile({
+            username: data.account.username,
+            display_name: data.account.displayName || data.account.username,
+          });
+        }
+        loginUser(email.trim().toLowerCase());
+        notify.success(data.message || "Login berhasil!", "auth-login");
+        router.push("/dashboard");
         return;
       }
 
-      if (result.account) {
+      // 2. Fallback to local storage verification if server returned error
+      const localResult = verifyCredentials(email, password);
+      if (localResult.success && localResult.account) {
         updateProfile({
-          username: result.account.username,
-          display_name: result.account.displayName || result.account.username,
+          username: localResult.account.username,
+          display_name: localResult.account.displayName || localResult.account.username,
         });
+        loginUser(email.trim().toLowerCase());
+        notify.success(localResult.message, "auth-login");
+        router.push("/dashboard");
+        return;
       }
 
-      loginUser(email.trim().toLowerCase());
-      notify.success(result.message, "auth-login");
-      router.push("/dashboard");
-    }, 400);
+      notify.error(data.message || localResult.message || "Login gagal", "auth-err");
+    } catch {
+      // Offline fallback
+      const localResult = verifyCredentials(email, password);
+      if (localResult.success && localResult.account) {
+        updateProfile({
+          username: localResult.account.username,
+          display_name: localResult.account.displayName || localResult.account.username,
+        });
+        loginUser(email.trim().toLowerCase());
+        notify.success(localResult.message, "auth-login");
+        router.push("/dashboard");
+        return;
+      }
+      notify.error(localResult.message || "Koneksi bermasalah saat login", "auth-err");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

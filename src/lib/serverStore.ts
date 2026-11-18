@@ -9,12 +9,38 @@ import {
   INITIAL_ANALYTICS,
 } from "./mockData";
 
+export interface ServerAccount {
+  email: string;
+  password: string;
+  username: string;
+  displayName: string;
+  createdAt: string;
+}
+
 export interface DatabaseSchema {
   profiles: UserProfile[];
   links: LinkItem[];
   socials: SocialAccount[];
   analytics: AnalyticsSummary;
+  accounts?: ServerAccount[];
 }
+
+const DEFAULT_SERVER_ACCOUNTS: ServerAccount[] = [
+  {
+    email: "user@sendlnk.com",
+    password: "password123",
+    username: "sendlink",
+    displayName: "SendLNK User",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    email: "admin@sendlnk.com",
+    password: "admin123",
+    username: "admin",
+    displayName: "Administrator",
+    createdAt: new Date().toISOString(),
+  },
+];
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_FILE = path.join(DATA_DIR, "store.json");
@@ -34,6 +60,7 @@ function getInitialDatabase(): DatabaseSchema {
     links: [...INITIAL_LINKS],
     socials: [...INITIAL_SOCIALS],
     analytics: { ...INITIAL_ANALYTICS },
+    accounts: [...DEFAULT_SERVER_ACCOUNTS],
   };
 }
 
@@ -284,4 +311,81 @@ export function incrementLinkClick(linkId: string): number {
 
   saveDatabase(db);
   return linkClicks;
+}
+
+// ==========================================
+// CENTRALIZED AUTHENTICATION API
+// ==========================================
+
+export function getServerAccounts(): ServerAccount[] {
+  const db = loadDatabase();
+  if (!db.accounts || !Array.isArray(db.accounts)) {
+    db.accounts = [...DEFAULT_SERVER_ACCOUNTS];
+    saveDatabase(db);
+  }
+  return db.accounts;
+}
+
+export function registerServerAccount(account: ServerAccount): {
+  success: boolean;
+  message: string;
+  account?: ServerAccount;
+} {
+  const db = loadDatabase();
+  if (!db.accounts || !Array.isArray(db.accounts)) {
+    db.accounts = [...DEFAULT_SERVER_ACCOUNTS];
+  }
+
+  const cleanEmail = account.email.trim().toLowerCase();
+  const exists = db.accounts.find((a) => a.email.toLowerCase() === cleanEmail);
+  if (exists) {
+    return {
+      success: false,
+      message: "Email ini sudah terdaftar di server. Silakan masuk.",
+    };
+  }
+
+  const newAccount: ServerAccount = {
+    ...account,
+    email: cleanEmail,
+    createdAt: new Date().toISOString(),
+  };
+
+  db.accounts.push(newAccount);
+  saveDatabase(db);
+
+  return {
+    success: true,
+    message: "Akun berhasil didaftarkan di server!",
+    account: newAccount,
+  };
+}
+
+export function verifyServerCredentials(
+  email: string,
+  pass: string
+): { success: boolean; message: string; account?: ServerAccount } {
+  const accounts = getServerAccounts();
+  const cleanEmail = email.trim().toLowerCase();
+  const found = accounts.find((a) => a.email.toLowerCase() === cleanEmail);
+
+  if (!found) {
+    return {
+      success: false,
+      message: "Email belum terdaftar. Silakan buat akun baru terlebih dahulu.",
+    };
+  }
+
+  if (found.password !== pass) {
+    return {
+      success: false,
+      message: "Kata sandi salah. Silakan coba lagi.",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Login berhasil!",
+    account: found,
+  };
 }
