@@ -16,7 +16,7 @@ function ProfileLoading() {
       <div className="flex flex-col items-center gap-3">
         <div className="w-12 h-12 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
         <span className="text-xs font-mono text-slate-400">
-          INITIALIZING MAJIDSPACE...
+          INITIALIZING SENDLNK...
         </span>
       </div>
     </div>

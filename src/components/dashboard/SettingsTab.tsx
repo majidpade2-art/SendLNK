@@ -32,7 +32,7 @@ export function SettingsTab() {
   const [userEmail, setUserEmail] = useState("user@sendlnk.com");
 
   useEffect(() => {
-    setUserEmail(getCurrentUserEmail());
+    setUserEmail(getCurrentUserEmail() || "user@sendlnk.com");
   }, []);
 
   const handlePasswordUpdate = (e: React.FormEvent) => {

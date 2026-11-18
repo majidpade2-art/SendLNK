@@ -41,7 +41,7 @@ export default function LoginPage() {
         });
       }
 
-      loginUser();
+      loginUser(email.trim().toLowerCase());
       notify.success(result.message, "auth-login");
       router.push("/dashboard");
     }, 400);

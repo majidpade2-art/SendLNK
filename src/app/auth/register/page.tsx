@@ -55,7 +55,7 @@ export default function RegisterPage() {
         display_name: displayName || cleanUsername,
         views_count: 0,
       });
-      loginUser();
+      loginUser(email.trim().toLowerCase());
       notify.success(res.message, "auth-register");
       router.push("/dashboard");
     }, 500);

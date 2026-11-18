@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 
 export default function LandingPage() {
   const router = useRouter();
-  const { user, links, socials, uiTheme, t } = useApp();
+  const { user, links, socials, isAuthenticated, uiTheme, t } = useApp();
   const [handleInput, setHandleInput] = useState("");
   const [previewThemeKey, setPreviewThemeKey] = useState("cyberpunk");
 
@@ -125,25 +125,39 @@ export default function LandingPage() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             <ThemeToggle />
             <LanguageSelector variant="compact" />
-            <Link
-              href="/auth/login"
-              className={cn(
-                "hidden sm:inline-block text-sm font-medium px-3 py-2 transition-colors",
-                isLight ? "text-slate-700 hover:text-slate-900" : "text-slate-300 hover:text-white"
-              )}
-            >
-              {t("landing_nav_signin")}
-            </Link>
-            <Link
-              href="/dashboard"
-              className="px-3 sm:px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
-            >
-              <span>{t("landing_nav_dashboard")}</span>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                href="/dashboard"
+                className="px-3 sm:px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+              >
+                <span>{t("landing_nav_dashboard")}</span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </Link>
+            ) : (
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Link
+                  href="/auth/login"
+                  className={cn(
+                    "text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border transition-colors",
+                    isLight
+                      ? "border-slate-200 bg-white text-slate-700 hover:text-slate-950 hover:bg-slate-50 shadow-2xs"
+                      : "border-slate-800 bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800"
+                  )}
+                >
+                  {t("landing_nav_signin")}
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs sm:text-sm hover:bg-emerald-400 hover:shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all flex items-center gap-1 cursor-pointer shrink-0"
+                >
+                  <span>Daftar</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </header>

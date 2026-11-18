@@ -120,14 +120,22 @@ export function verifyCredentials(
   };
 }
 
-export function getCurrentUserEmail(): string {
-  if (typeof window === "undefined") return "user@sendlnk.com";
-  return localStorage.getItem(CURRENT_SESSION_EMAIL_KEY) || "user@sendlnk.com";
+export function getCurrentUserEmail(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(CURRENT_SESSION_EMAIL_KEY);
+}
+
+export function isUserLoggedIn(): boolean {
+  if (typeof window === "undefined") return false;
+  const email = localStorage.getItem(CURRENT_SESSION_EMAIL_KEY);
+  const cookieAuth = document.cookie.includes("app_auth=true");
+  return Boolean(email && cookieAuth);
 }
 
 export function setCurrentUserEmail(email: string): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(CURRENT_SESSION_EMAIL_KEY, email.trim().toLowerCase());
+  document.cookie = "app_auth=true; path=/; max-age=604800; SameSite=Lax";
 }
 
 export function updateAccountPassword(

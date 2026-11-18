@@ -49,7 +49,7 @@ interface AppContextType {
   recordProfileView: () => void;
   recordLinkClick: (linkId: string) => void;
   // Auth simulation / operations
-  loginUser: () => void;
+  loginUser: (email?: string) => void;
   logout: (redirectTo?: string) => void;
   resetToDefaults: (silent?: boolean | unknown) => void;
 }
@@ -63,7 +63,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [links, setLinks] = useState<LinkItem[]>(INITIAL_LINKS);
   const [socials, setSocials] = useState<SocialAccount[]>(INITIAL_SOCIALS);
   const [analytics, setAnalytics] = useState<AnalyticsSummary>(INITIAL_ANALYTICS);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [language, setLanguageState] = useState<LanguageCode>("id");
@@ -166,6 +166,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           if (parsed.links) setLinks(parsed.links);
           if (parsed.socials) setSocials(parsed.socials);
           if (parsed.analytics) setAnalytics(parsed.analytics);
+        }
+
+        // Validate active session
+        if (typeof window !== "undefined") {
+          const hasAuthCookie = document.cookie.includes("app_auth=true");
+          const sessionEmail = localStorage.getItem("sendlnk_session_email");
+          setIsAuthenticated(Boolean(hasAuthCookie && sessionEmail));
         }
       } catch (e) {
         console.error("Failed to parse saved state", e);
@@ -472,18 +479,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const loginUser = () => {
+  const loginUser = (email?: string) => {
     setIsAuthenticated(true);
     if (typeof document !== "undefined") {
-      document.cookie = "app_auth=true; path=/; max-age=604800";
+      document.cookie = "app_auth=true; path=/; max-age=604800; SameSite=Lax";
+    }
+    if (email && typeof localStorage !== "undefined") {
+      localStorage.setItem("sendlnk_session_email", email.trim().toLowerCase());
     }
   };
 
   const logout = (redirectTo: string = "/auth/login") => {
     setIsAuthenticated(false);
     if (typeof document !== "undefined") {
-      document.cookie = "app_auth=; path=/; max-age=0";
+      document.cookie = "app_auth=; path=/; max-age=0; SameSite=Lax";
       document.cookie = "demo_user=; path=/; max-age=0";
+    }
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem("sendlnk_session_email");
     }
     notify.info(
       language === "id" ? "Berhasil keluar dari akun" : "Logged out successfully",

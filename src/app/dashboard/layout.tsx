@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { PhonePreviewFrame } from "@/components/dashboard/PhonePreviewFrame";
 import { useApp } from "@/context/AppContext";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,9 +16,17 @@ export default function DashboardLayout({
 }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
-  const { user, links, socials, uiTheme, t } = useApp();
+  const { user, links, socials, isAuthenticated, isLoading, uiTheme, t } = useApp();
   const isLight = uiTheme === "light";
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Authentication Guard: require login / registered account before accessing dashboard
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace("/auth/login");
+    }
+  }, [isAuthenticated, isLoading, router]);
 
   // Page title mapping
   const getPageInfo = () => {
@@ -44,6 +52,24 @@ export default function DashboardLayout({
   };
 
   const { title, subtitle } = getPageInfo();
+
+  if (isLoading || !isAuthenticated) {
+    return (
+      <div
+        className={cn(
+          "min-h-screen w-full flex items-center justify-center transition-colors",
+          isLight ? "bg-[#f8fafc] text-slate-900" : "bg-[#07090e] text-slate-100"
+        )}
+      >
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+          <span className="text-xs font-mono text-slate-400">
+            MEMERIKSA AUTENTIKASI...
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
